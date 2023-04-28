@@ -10,6 +10,7 @@ export function NovoCliente() {
     const navigate = useNavigate();
 
     function onSubmit(data) {
+        console.log(data);
         axios.post("http://localhost:3001/clientes", data)
             .then(response => {
                 toast.success("Cliente adicionado.", { position: "bottom-right", duration: 2000 });
