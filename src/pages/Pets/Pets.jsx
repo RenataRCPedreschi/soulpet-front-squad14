@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button, Modal, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Loader } from "../../components/Loader/Loader";
+import { toast }  from "react-hot-toast";
 
 export function Pets() {
 const [pets, setPets] = useState(null);
@@ -23,28 +24,30 @@ useEffect(() => {
     initializeTable();
 }, []);
 
-const initializeTable = async () => {
-    try {
-    const response = await axios.get("http://localhost:3001/pets");
-    setPets(response.data ?? []);
-    } catch (error) {
-    console.log(error);
+function initializeTable() {
+    axios
+    .get("http://localhost:3001/pets")
+    .then((response) => {
+        setPets(response.data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+}
+
+function onDelete() {
+        axios.delete(`http://localhost:3001/pets/${idPet}`)
+            .then(response => {
+                toast.success(response.data.message, { position: "bottom-right", duration: 2000 });
+                initializeTable();
+            })
+            .catch(error => {
+                console.log(error);
+                toast.error(error.response.data.message, { position: "bottom-right", duration: 2000 });
+            });
+        handleClose();
     }
-};
 
-    const [showModal, setShowModal] = useState(false);
-
-
-const [currentPet, setCurrentPet] = useState(null);
-const handleShowModal = (pet) => {
-    setCurrentPet(pet);
-    setShowModal(true);
-};
-
-const handleCloseModal = () => {
-    setShowModal(false);
-    setCurrentPet(null);
-};
 
 return (
     <div className="pets container">
@@ -54,7 +57,9 @@ return (
                     <i className="bi bi-plus-lg me-2"></i> Pets
                 </Button>
     </div>   
-    {pets ? (
+    {pets === null ? (
+        <Loader />
+    ) : (
         <Table striped bordered hover>
         <thead >
             <tr>
@@ -63,57 +68,46 @@ return (
             </tr>
         </thead>
         <tbody>
-            {pets.map(({ id, nome, tipo, porte, dataNasc }) => (
-            <tr key={id}>
-                <td>{nome}</td>
+            {pets.map((pet) => {
+                return(
+            <tr key={pet.id}>
+                <td>{pet.nome}</td>
+                <td>{pet.tipo}</td>
+                <td>{pet.porte}</td>
+                <td>{pet.dataNasc}</td>
+                <td>{pet.clienteId}</td>
                 <td className="d-flex gap-2">
-                <Button onClick={() => handleShow(id)} variant="danger">
+                    <Button onClick={() => handleShow(pet.id)}>
                     <i className="bi bi-trash-fill"></i>
-                </Button>
-                <Button variant="success" as={Link} to={`/pets/editar/${id}`}>
-                    Editar
-                </Button>
-
-                <Button
-                    onClick={() =>
-                    handleShowModal({ id, nome, tipo, porte, dataNasc })
-                    }
-                    variant="success"
-                >
-                    <i class="bi bi-clipboard-heart"></i>
-                </Button>
-                </td>
-                <Modal show={showModal} onHide={handleCloseModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Detalhes do Pet</Modal.Title>
-                </Modal.Header>
-                {currentPet && (
-                    <Modal.Body className="Modal">
-                    <div>
-                        <strong>Tipo:</strong> {currentPet.tipo}
-                    </div>
-                    <div>
-                        <strong>Porte:</strong> {currentPet.porte}
-                    </div>
-                    <div>
-                        <strong>Data de Nascimento:</strong>{" "}
-                        {currentPet.dataNasc}
-                    </div>
-                    </Modal.Body>
-                )}
-                <Modal.Footer>
-                    <Button variant="success" onClick={handleCloseModal}>
-                    Fechar
                     </Button>
-                </Modal.Footer>
-                </Modal>
-            </tr>
-            ))}
+                    <Button as={Link} to={`/pets/editar/${pet.id}`}>
+                    <i className="bi bi-pencil-fill"></i>
+                    </Button>
+                    <Button as={Link} to={`/pets/detalhes/${pet.id}`}>
+                    <i class="bi bi-info-square text-warning"></i>
+                    </Button>
+
+                </td>
+                </tr>
+            );
+            })}
         </tbody>
         </Table>
-    ) : (
-        <Loader />
     )}
+    <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirmação</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Tem certeza que deseja excluir o pet?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="danger" onClick={handleClose}>
+                        Cancelar
+                    </Button>
+                    <Button variant="primary" onClick={onDelete}>
+                        Excluir
+                    </Button>
+                </Modal.Footer>
+            </Modal>
     </div>
 );
 }
