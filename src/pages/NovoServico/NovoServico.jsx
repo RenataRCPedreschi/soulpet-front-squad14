@@ -2,6 +2,7 @@ import axios from "axios";
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export function NovoServico() {
   const {
@@ -9,6 +10,7 @@ export function NovoServico() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
 
   function onSubmit(data) {
     axios
@@ -18,6 +20,7 @@ export function NovoServico() {
           position: "bottom-right",
           duration: 2000,
         });
+        navigate("/servicos")
       })
       .catch((error) => {
         toast.error("Algo deu errado.", {
