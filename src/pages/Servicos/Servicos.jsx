@@ -56,7 +56,7 @@ export function Servicos() {
                                             <Button>
                                                 <i className="bi bi-trash-fill"></i>
                                             </Button>
-                                            <Button>
+                                            <Button as={Link} to={`/servicos/editar/${servico.id}`}>
                                                 <i className="bi bi-pencil-fill"></i>
                                             </Button>
                                         </td>
