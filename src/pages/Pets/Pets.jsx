@@ -64,6 +64,10 @@ return (
         <thead >
             <tr>
             <th>Nome</th>
+            <th>Tipo</th>
+            <th>Porte</th>
+            <th>Data de Nascimento</th>
+            <th>Tutor</th>
             <th>Ações</th>
             </tr>
         </thead>
