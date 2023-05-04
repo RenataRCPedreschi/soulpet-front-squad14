@@ -12,10 +12,11 @@ export function Header() {
                 <div className="d-flex gap-5">
                     <Link to="/clientes">Clientes</Link>
                     <Link to="/pets">Pets</Link>
-                    <Link to="/servicos">Serviços</Link>
                     <Link to="/produtos">Produtos</Link>
+                    <Link to="/servicos">Serviços</Link>
+                    <Link to="/agendamentos">Agendamentos</Link>
                     <Link to="/dashboard">DashBoard</Link>
-                </div>"
+                </div>
             </nav>
         </header>
     );
