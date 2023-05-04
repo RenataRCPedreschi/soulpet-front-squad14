@@ -12,6 +12,7 @@ import { NovoProduto } from "./pages/NovoProduto/NovoProduto";
 import { NovoAgendamento } from "./pages/NovoAgendamento/NovoAgendamento";
 import { EditaPet } from "./pages/EditaPet/EditaPet";
 import { Produtos } from "./pages/Produtos/Produtos";
+import { EditarProduto } from "./pages/EditarProduto/EditarProduto";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/produtos/novo" element={<NovoProduto />} />
           <Route path="/agendamentos/novo" element={<NovoAgendamento />} />
           <Route path="/produtos" element={<Produtos />} />
+          <Route path="/produtos/editar/:id" element={<EditarProduto />} />
         </Route>
       </Routes>
     </BrowserRouter>
