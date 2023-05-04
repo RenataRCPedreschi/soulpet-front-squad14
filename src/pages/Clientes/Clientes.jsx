@@ -106,6 +106,13 @@ export function Clientes() {
                     <Button as={Link} to={`/clientes/editar/${cliente.id}`}>
                       <i className="bi bi-pencil-fill"></i>
                     </Button>
+                    <Button
+                      variant="info"
+                      as={Link}
+                      to={`/clientes/detalhes/${cliente.id}`}
+                    >
+                     <i class="bi bi-clipboard-check"></i>
+                    </Button>
                   </td>
                 </tr>
               );
