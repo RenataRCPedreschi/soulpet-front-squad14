@@ -13,6 +13,8 @@ import { NovoAgendamento } from "./pages/NovoAgendamento/NovoAgendamento";
 import { EditaPet } from "./pages/EditaPet/EditaPet";
 import { Produtos } from "./pages/Produtos/Produtos";
 import { EditarProduto } from "./pages/EditarProduto/EditarProduto";
+import { EditaServico } from "./pages/Editaservico/EditaServico";
+
 
 function App() {
   return (
@@ -27,11 +29,13 @@ function App() {
           <Route path="/pets/novo" element={<NovoPet />} />
           <Route path="/pets/editar/:id" element={<EditaPet />} />
           <Route path="/servicos/novo" element={<NovoServico />} />
+          <Route path="/servicos/editar/:id" element={<EditaServico />} />
           <Route path="/servicos" element={<Servicos />} />
           <Route path="/produtos/novo" element={<NovoProduto />} />
           <Route path="/agendamentos/novo" element={<NovoAgendamento />} />
           <Route path="/produtos" element={<Produtos />} />
           <Route path="/produtos/editar/:id" element={<EditarProduto />} />
+
         </Route>
       </Routes>
     </BrowserRouter>
